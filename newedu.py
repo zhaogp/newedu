@@ -8,13 +8,13 @@ app.debug = True
 
 @app.route('/', methods=['GET', 'POST'])
 def wechat_auth():
-    if  request.method == 'GET':
+    if request.method == 'GET':
         token = 'sae'
         query = request.args
-        signature = query.get('signature', )
-        timestamp = query.get('timestamp', )
-        nonce = query.get('nonce', )
-        echostr = query.get('echostr', )
+        signature = query.get('signature', '')
+        timestamp = query.get('timestamp', '')
+        nonce = query.get('nonce', '')
+        echostr = query.get('echostr', '')
         s = [token, timestamp, nonce]
         s.sort()
         s = ''.join(s)
