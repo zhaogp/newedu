@@ -20,4 +20,6 @@ def wechat_auth():
         s = ''.join(s)
         if hashlib.sha1(s).hexdigest() == signature:
             return make_response(echostr)
+    else:
+        return make_response('auth error ...')
 
