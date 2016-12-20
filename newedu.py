@@ -10,6 +10,7 @@ app.debug = True
 def wechat_auth():
     if request.method == 'GET':
         token = 'gpsae'
+        print token
         query = request.args
         signature = query.get('signature', '')
         timestamp = query.get('timestamp', '')
