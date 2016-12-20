@@ -9,7 +9,7 @@ app.debug = True
 @app.route('/', methods=['GET', 'POST'])
 def wechat_auth():
     if request.method == 'GET':
-        token = 'sae'
+        token = 'gpsae'
         query = request.args
         signature = query.get('signature', '')
         timestamp = query.get('timestamp', '')
