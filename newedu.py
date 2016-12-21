@@ -12,6 +12,7 @@ def wechat_auth():
         token = 'gpsae'
         print token
         query = request.args
+        print query
         signature = query.get('signature', '')
         timestamp = query.get('timestamp', '')
         nonce = query.get('nonce', '')
