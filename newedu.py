@@ -43,7 +43,7 @@ def wechat():
             '<Content><![CDATA[%s]]></Content>' \
             '<FuncFlag>0</FuncFlag>' \
             '</xml>'
-    response = make_response(reply % (to_user_name, from_user_name, str(int(time.time())), content))
+    response = make_response(reply % (from_user_name, to_user_name, str(int(time.time())), content))
     response.content_type = 'application/xml'
     return response
 
