@@ -1,5 +1,5 @@
 import hashlib
-import xml.etree.ElementTree as ET
+from xml.etree import ElementTree as et
 import time
 
 __author__ = 'zhaoguoping'
@@ -23,12 +23,15 @@ def wechat_auth():
         s.sort()
         s = ''.join(s)
         if hashlib.sha1(s).hexdigest() == signature:
-            one_response = make_response(echostr)
+            response = make_response(echostr)
         else:
-            one_response = make_response('auth error ...')
-    one_response.content_type = 'application/text'
+            response = make_response('auth error ...')
+    response.content_type = 'application/text'
+    return response
 
-    xml_recv = ET.fromstring(request.data)
+@app.route('/response', methods=['GET', 'POST'])
+def response_text():
+    xml_recv = et.fromstring
     to_user_name = xml_recv.find('ToUserName').text
     from_user_name = xml_recv.find('FromUserName').test
     content = xml_recv.find('Content').text
