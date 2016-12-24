@@ -9,7 +9,7 @@ app = Flask(__name__)
 app.debug = True
 
 @app.route('/', methods=['GET', 'POST'])
-def wechat_auth():
+def wechat():
     if request.method == 'GET':
         token = 'gpsae'
         print token
@@ -26,12 +26,10 @@ def wechat_auth():
             response = make_response(echostr)
         else:
             response = make_response('auth error ...')
-    response.content_type = 'application/text'
-    return response
+        response.content_type = 'application/text'
+        return response
 
-@app.route('/response', methods=['GET', 'POST'])
-def response_text():
-    xml_recv = et.fromstring
+    xml_recv = et.fromstring(request.data)
     to_user_name = xml_recv.find('ToUserName').text
     from_user_name = xml_recv.find('FromUserName').test
     content = xml_recv.find('Content').text
@@ -39,7 +37,7 @@ def response_text():
             '<ToUserName><![CDATA[%s]]></ToUserName>' \
             '<FromUserName><![CDATA[%s]]></FromUserName>' \
             '<CreateTime>%s</CreateTime>' \
-            '<MsgType><![CDATA[xml]]></MsgType>' \
+            '<MsgType><![CDATA[text]]></MsgType>' \
             '<Content><![CDATA[%s]]></Content>' \
             '<FuncFlag>0</FuncFlag>' \
             '</xml>'
