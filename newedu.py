@@ -24,10 +24,12 @@ def wechat():
         s = ''.join(s)
         if hashlib.sha1(s).hexdigest() == signature:
             response = make_response(echostr)
+            response.content_type = 'application/text'
+            return response
         else:
             response = make_response('auth error ...')
-        response.content_type = 'application/text'
-        return response
+            response.content_type = 'application/text'
+            return response
 
     xml_recv = et.fromstring(request.data)
     to_user_name = xml_recv.find('ToUserName').text
