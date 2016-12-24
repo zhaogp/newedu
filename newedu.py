@@ -33,7 +33,7 @@ def wechat():
 
     xml_recv = et.fromstring(request.data)
     to_user_name = xml_recv.find('ToUserName').text
-    from_user_name = xml_recv.find('FromUserName').test
+    from_user_name = xml_recv.find('FromUserName').text
     content = xml_recv.find('Content').text
     reply = '<xml>' \
             '<ToUserName><![CDATA[%s]]></ToUserName>' \
