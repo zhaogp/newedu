@@ -38,32 +38,24 @@ def index():
         return response
 
     xml_recv = et.fromstring(request.data)
-    to_user_name = xml_recv.find('ToUserName').text
-    from_user_name = xml_recv.find('FromUserName').text
+    to_user = xml_recv.find('FromUserName').text
+    from_user = xml_recv.find('ToUserName').text
+    latitude = xml_recv.find('Longitude').text
+    longitude = xml_recv.find('Longitude').text
 
-    latitude_obj = xml_recv.find('Latitude')
-    longitude_obj = xml_recv.find('Longitude')
-
-    if latitude_obj:
-        latitude = latitude_obj.text
-        longitude = longitude_obj.text
-        content = xml_recv.find('Content').text + latitude + longitude
-    else:
-        content = xml_recv.find('Content').text
-
-    reply = '<xml>' \
-            '<ToUserName><![CDATA[%s]]></ToUserName>' \
-            '<FromUserName><![CDATA[%s]]></FromUserName>' \
-            '<CreateTime>%s</CreateTime>' \
-            '<MsgType><![CDATA[text]]></MsgType>' \
-            '<Content><![CDATA[%s]]></Content>' \
-            '<FuncFlag>0</FuncFlag>' \
+    reply = '<xml>'\
+            '<ToUserName><![CDATA[%s]]></ToUserName>'\
+            '<FromUserName><![CDATA[%s]]></FromUserName>'\
+            '<CreateTime>%s</CreateTime>'\
+            '<MsgType><![CDATA[text]]></MsgType>'\
+            '<Latitude>%s</Latitude>'\
+            '<Longitude>%s</Longitude>'\
+            '<Precision>119.385040</Precision>'\
             '</xml>'
 
-    response = make_response(reply % (from_user_name, to_user_name, str(int(time.time())), content))
+    response = make_response(reply % (to_user, from_user, str(int(time.time())), latitude, longitude))
     response.content_type = 'application/xml'
     return response
-
 
 if __name__ == '__main__':
 	app.run('0.0.0.0', 5010, debug=True)
