@@ -8,28 +8,34 @@ from flask import Flask, request, make_response
 app = Flask(__name__)
 app.debug = True
 
+@app.route('/auth', methods=['GET', 'POST'])
+def wechat_auth():
+    token = 'gpsae'
+    print 'token: %s' % token
+    query = request.args
+    print 'query: %' % query
+    signature = query.get('signature', '')
+    print 'signature: %s' % signature 
+    timestamp = query.get('timestamp', '')
+    nonce = query.get('nonce', '')
+    echostr = query.get('echostr', '')
+    s = [token, timestamp, nonce]
+    s.sort()
+    s = ''.join(s)
+    if hashlib.sha1(s).hexdigest() == signature:
+        response = make_response(echostr)
+        response.content_type = 'application/text'
+        return response
+    else:
+        response = make_response('auth error ...')
+        return response
+
 @app.route('/', methods=['GET', 'POST'])
-def wechat():
+def index():
     if request.method == 'GET':
-        token = 'gpsae'
-        print token
-        query = request.args
-        print query
-        signature = query.get('signature', '')
-        timestamp = query.get('timestamp', '')
-        nonce = query.get('nonce', '')
-        echostr = query.get('echostr', '')
-        s = [token, timestamp, nonce]
-        s.sort()
-        s = ''.join(s)
-        if hashlib.sha1(s).hexdigest() == signature:
-            response = make_response(echostr)
-            response.content_type = 'application/text'
-            return response
-        else:
-            response = make_response('auth error ...')
-            response.content_type = 'application/text'
-            return response
+        response = make_response('Hello gp.')
+        response.content_type = 'application/text'
+        return response
 
     xml_recv = et.fromstring(request.data)
     to_user_name = xml_recv.find('ToUserName').text
@@ -57,4 +63,8 @@ def wechat():
     response = make_response(reply % (from_user_name, to_user_name, str(int(time.time())), content))
     response.content_type = 'application/xml'
     return response
+
+
+if __name__ == '__main__':
+	app.run('0.0.0.0', 5010, debug=True)
 
