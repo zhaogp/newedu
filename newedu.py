@@ -40,20 +40,17 @@ def index():
     xml_recv = et.fromstring(request.data)
     to_user = xml_recv.find('FromUserName').text
     from_user = xml_recv.find('ToUserName').text
-    latitude = xml_recv.find('Longitude').text
+    latitude = xml_recv.find('Latitude').text
     longitude = xml_recv.find('Longitude').text
-
+    content = latitude + longitude
     reply = '<xml>'\
             '<ToUserName><![CDATA[%s]]></ToUserName>'\
             '<FromUserName><![CDATA[%s]]></FromUserName>'\
-            '<CreateTime>%s</CreateTime>'\
             '<MsgType><![CDATA[text]]></MsgType>'\
-            '<Latitude>%s</Latitude>'\
-            '<Longitude>%s</Longitude>'\
-            '<Precision>119.385040</Precision>'\
+            '<Content><![CDATA[%s]]></Content>'\
             '</xml>'
 
-    response = make_response(reply % (to_user, from_user, str(int(time.time())), latitude, longitude))
+    response = make_response(reply % (to_user, from_user, content))
     response.content_type = 'application/xml'
     return response
 
