@@ -42,7 +42,7 @@ def index():
     from_user = xml_recv.find('ToUserName').text
     latitude = xml_recv.find('Latitude').text
     longitude = xml_recv.find('Longitude').text
-    content = latitude + longitude
+    content = latitude + '|' + longitude
     reply = '<xml>'\
             '<ToUserName><![CDATA[%s]]></ToUserName>'\
             '<FromUserName><![CDATA[%s]]></FromUserName>'\
