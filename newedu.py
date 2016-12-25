@@ -35,10 +35,12 @@ def wechat():
     to_user_name = xml_recv.find('ToUserName').text
     from_user_name = xml_recv.find('FromUserName').text
 
-    latitude = xml_recv.find('Latitude').text
-    longitude = xml_recv.find('Longitude').text
+    latitude_obj = xml_recv.find('Latitude')
+    longitude_obj = xml_recv.find('Longitude')
 
-    if latitude:
+    if latitude_obj:
+        latitude = latitude_obj.text
+        longitude = longitude_obj.text
         content = xml_recv.find('Content').text + latitude + longitude
     else:
         content = xml_recv.find('Content')
