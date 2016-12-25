@@ -34,7 +34,11 @@ def wechat():
     xml_recv = et.fromstring(request.data)
     to_user_name = xml_recv.find('ToUserName').text
     from_user_name = xml_recv.find('FromUserName').text
-    content = xml_recv.find('Content').text
+
+    latitude = xml_recv.find('Latitude').text
+    longitude = xml_recv.find('Longitude').text
+    content = xml_recv.find('Content').text + latitude + longitude
+
     reply = '<xml>' \
             '<ToUserName><![CDATA[%s]]></ToUserName>' \
             '<FromUserName><![CDATA[%s]]></FromUserName>' \
@@ -43,6 +47,7 @@ def wechat():
             '<Content><![CDATA[%s]]></Content>' \
             '<FuncFlag>0</FuncFlag>' \
             '</xml>'
+
     response = make_response(reply % (from_user_name, to_user_name, str(int(time.time())), content))
     response.content_type = 'application/xml'
     return response
