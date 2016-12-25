@@ -37,7 +37,11 @@ def wechat():
 
     latitude = xml_recv.find('Latitude').text
     longitude = xml_recv.find('Longitude').text
-    content = xml_recv.find('Content').text + latitude + longitude
+
+    if latitude:
+        content = xml_recv.find('Content').text + latitude + longitude
+    else:
+        content = xml_recv.find('Content')
 
     reply = '<xml>' \
             '<ToUserName><![CDATA[%s]]></ToUserName>' \
