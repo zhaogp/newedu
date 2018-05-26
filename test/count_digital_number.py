@@ -1,3 +1,6 @@
+import operator
+
+
 def find_digital_number(N):
     """
     N is a nagetive number, find each digital number from 0 to N.
@@ -25,7 +28,8 @@ def find_digital_number(N):
 
         N = mod
 
-    return rv
+    x = sorted(rv.items(), key=operator.itemgetter(1))
+    return x
         
 print(find_digital_number(109))
 print(find_digital_number(1090))
